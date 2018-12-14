@@ -1,0 +1,17 @@
+move_uploaded_file（）；
+这个函数是将上传的文件移动到新位置。
+move_uploaded_file（'移动前', '移动后'）；
+移动前 - 移动前的地址
+移动后 - 保持的地址
+
+这个函数在一些 windows 中文系统上，要把传入的参数设置为 GBK 编码
+切记在接收文件时注意文件名中文的问题，可以通过iconv函数转换中文编码为 GBK 编码
+例：
+// 临时路径
+$img_tmp_path = $_FILES['images']['tmp_name'];
+// 存储路径
+$img_dest_path = './images/' . uniqid() . '-' . iconv('UTF-8', 'GBK', $_FILES['images']['name']);
+$img_moves = move_uploaded_file($img_tmp_path, $img_dest_path);
+但是，如果数据是要保存为json格式的话，json_encode（）；所有字符串数据的编码必须是 UTF-8。
+可以在取值前把数据再转换为 UTF-8 。
+$images[] = iconv('GBK', 'UTF-8', substr($after_path, 2));
